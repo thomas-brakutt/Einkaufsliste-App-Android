@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Einkaufsliste</string>
+    <string name="hint_new_item">Text</string>
+    <string name="button_add">Hinzufügen</string>
+    <string name="button_done">✔</string>
+    <string name="button_unavailable">✖</string>
+    <string name="button_delete">🗑</string>
+</resources>

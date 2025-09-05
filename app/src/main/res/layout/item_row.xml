@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <!-- Text -->
+
+    <TextView
+        android:id="@+id/textViewItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Beispiel"
+        android:textColor="#FFFF"
+        android:textSize="18sp" />
+
+    <!-- Button 1: erledigt -->
+
+    <Button
+        android:id="@+id/buttonDone"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#4CAF50"
+        android:text="✔"
+        android:layout_marginEnd="5dp"/>
+
+    <!-- Button 2: nicht verfügbar -->
+    <Button
+        android:id="@+id/buttonUnavailable"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#FFC107"
+        android:text="✖"
+        android:layout_marginEnd="5dp"/>
+
+    <!-- Button 3: löschen -->
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#E00707"
+        android:text="🗑"/>
+</LinearLayout>
