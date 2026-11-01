@@ -6,7 +6,9 @@ Artikel können hinzugefügt, als erledigt oder nicht verfügbar markiert und wi
 
 ## Screenshot
 
-![Einkaufsliste – App-Ansicht](screenshot/screenshot_01.png)
+
+<img src="screenshot/Screenshot_01.png" alt="Android-Einkaufsliste – App-Ansicht" width="300">
+
 
 ## Funktionen
 
