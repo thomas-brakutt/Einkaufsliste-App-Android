@@ -6,7 +6,7 @@ Artikel können hinzugefügt, als erledigt oder nicht verfügbar markiert und wi
 
 ## Screenshot
 
-![Einkaufsliste – App-Ansicht](screenshot/Screenshot_01.png)
+![Einkaufsliste – App-Ansicht](screenshot/screenshot_01.png)
 
 ## Funktionen
 
