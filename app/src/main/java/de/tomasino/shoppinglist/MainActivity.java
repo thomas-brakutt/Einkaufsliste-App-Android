@@ -26,16 +26,16 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     private AutoCompleteTextView editTextItem; // Eingabefeld mit Vorschlägen
-    private Button buttonAdd;                  // Button zum Hinzufügen
-    private RecyclerView recyclerViewItems;    // RecyclerView für die Einkaufsliste
+    private Button buttonAdd;  // Button zum Hinzufügen
+    private RecyclerView recyclerViewItems;  // RecyclerView für die Einkaufsliste
 
     private ArrayList<EinkaufsItem> einkaufsListe; // Datenquelle für RecyclerView
-    private ItemAdapter adapter;                  // Adapter für RecyclerView
+    private ItemAdapter adapter; // Adapter für RecyclerView
 
-    private ArrayList<String> vorschlaege;       // Liste der Vorschläge
-    private ArrayAdapter<String> autoAdapter;    // Adapter für AutoCompleteTextView
+    private ArrayList<String> vorschlaege; // Liste der Vorschläge
+    private ArrayAdapter<String> autoAdapter; // Adapter für AutoCompleteTextView
 
-    private SharedPreferences prefs;             // Für dauerhaftes Speichern der Vorschläge
+    private SharedPreferences prefs; // Speichert Einkaufsliste und Artikelvorschläge dauerhaft
     private static final String PREFS_NAME = "ShoppingPrefs";
     private static final String KEY_VORSCHLAEGE = "Vorschlaege";
     private static final String KEY_EINKAUFSLISTE = "Einkaufsliste";
@@ -129,9 +129,6 @@ public class MainActivity extends AppCompatActivity {
         prefs.edit()
                 .putString(KEY_EINKAUFSLISTE, daten.toString())
                 .apply();
-
-        Log.d("Einkaufsliste", "Gespeichert: " + daten.toString());
-
     }
 
     private ArrayList<EinkaufsItem> ladeEinkaufsliste() {
