@@ -17,6 +17,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import android.util.Log;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 public class MainActivity extends AppCompatActivity {
 
     private AutoCompleteTextView editTextItem; // Eingabefeld mit Vorschlägen
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences prefs;             // Für dauerhaftes Speichern der Vorschläge
     private static final String PREFS_NAME = "ShoppingPrefs";
     private static final String KEY_VORSCHLAEGE = "Vorschlaege";
+    private static final String KEY_EINKAUFSLISTE = "Einkaufsliste";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +65,16 @@ public class MainActivity extends AppCompatActivity {
         editTextItem.setThreshold(1); // ab 1 Buchstaben Vorschläge anzeigen
 
         // Liste vorbereiten
-        einkaufsListe = new ArrayList<>();
+        einkaufsListe = ladeEinkaufsliste();
 
 // RecyclerView einrichten
         recyclerViewItems.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ItemAdapter(einkaufsListe);
+
+        adapter = new ItemAdapter(
+                einkaufsListe,
+                this::speichereEinkaufsliste
+        );
+
         recyclerViewItems.setAdapter(adapter);
 
 
@@ -76,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     EinkaufsItem neuesItem = new EinkaufsItem(itemText);
                     einkaufsListe.add(neuesItem);
                     adapter.notifyItemInserted(einkaufsListe.size() - 1);
+                    speichereEinkaufsliste();
 
                     // Vorschläge aktualisieren
                     if (!vorschlaege.contains(itemText)) {
@@ -95,4 +108,68 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void speichereEinkaufsliste() {
+        JSONArray daten = new JSONArray();
+
+        for (EinkaufsItem item : einkaufsListe) {
+            JSONObject eintrag = new JSONObject();
+
+            try {
+                eintrag.put("text", item.getText());
+                eintrag.put("erledigt", item.isErledigt());
+                eintrag.put("nichtVerfuegbar", item.isNichtVerfuegbar());
+
+                daten.put(eintrag);
+            } catch (JSONException e) {
+                Log.e("Einkaufsliste", "Fehler beim Speichern", e);
+            }
+        }
+
+        prefs.edit()
+                .putString(KEY_EINKAUFSLISTE, daten.toString())
+                .apply();
+
+        Log.d("Einkaufsliste", "Gespeichert: " + daten.toString());
+
+    }
+
+    private ArrayList<EinkaufsItem> ladeEinkaufsliste() {
+        ArrayList<EinkaufsItem> geladeneListe = new ArrayList<>();
+
+        String gespeichert = prefs.getString(
+                KEY_EINKAUFSLISTE, "[]"
+        );
+
+        try {
+            JSONArray daten = new JSONArray(gespeichert);
+
+            for (int i = 0; i < daten.length(); i++) {
+                JSONObject eintrag = daten.getJSONObject(i);
+
+                String text = eintrag.optString("text", "").trim();
+
+                if (text.isEmpty()) {
+                    continue;
+                }
+
+                EinkaufsItem item = new EinkaufsItem(text);
+
+                item.setErledigt(
+                        eintrag.optBoolean("erledigt", false)
+                );
+
+                item.setNichtVerfuegbar(
+                        eintrag.optBoolean("nichtVerfuegbar", false)
+                );
+
+                geladeneListe.add(item);
+            }
+        } catch (JSONException e) {
+            Log.e("Einkaufsliste", "Fehler beim Laden", e);
+        }
+
+        return geladeneListe;
+    }
+
 }
